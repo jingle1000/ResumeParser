@@ -20,4 +20,5 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.homepage, name='homepage'),
+    path('resumes/', views.resumes, name="resumes")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

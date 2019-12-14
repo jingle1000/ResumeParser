@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .pyresparser import ResumeParser
+from .parser import ResumeParser
 from .models import Resume, UploadResumeModelForm
 from django.contrib import messages
 from django.conf import settings
@@ -7,9 +7,16 @@ from django.db import IntegrityError
 from django.http import HttpResponse, FileResponse, Http404
 import os
 
+def resumes(request):
+    resumes = Resume.objects.all()
+    messages.success(request, 'Resumes uploaded!')
+    context = {
+        'resumes': resumes,
+    }
+    return render(request, 'resumes.html', context)
+
 def homepage(request):
     if request.method == 'POST':
-        Resume.objects.all().delete()
         file_form = UploadResumeModelForm(request.POST, request.FILES)
         files = request.FILES.getlist('resume')
         resumes_data = []
